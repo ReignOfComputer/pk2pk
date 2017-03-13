@@ -39,6 +39,7 @@ namespace pk2pk
         private PKM Blank;
         private bool reflectiveConvertPrompted;
         private bool reflectiveConvertAllowed;
+        private string currType = "";
 
         private ConcurrentBag<string[]> output = new ConcurrentBag<string[]>();
         private bool log(string path, bool success, string comment)
@@ -132,7 +133,7 @@ namespace pk2pk
                 if (foldername == null)
                     return log(path, false, "Invalid Folder.");
 
-                File.WriteAllBytes(Path.Combine(foldername, converted.FileName), converted.DecryptedBoxData);
+                File.WriteAllBytes(Path.Combine(foldername, (fi.Name.Substring(0, fi.Name.Length - 3) + currType.ToLower())), converted.DecryptedBoxData);
                 return log(path, true, comment);
             }
             catch (Exception e)
@@ -161,6 +162,7 @@ namespace pk2pk
             output = new ConcurrentBag<string[]>();
             var convertCount = new ConcurrentBag<bool>();
             RTB_Output.AppendText("----------" + Environment.NewLine);
+            currType = CB_PKMTypes.Text;
             Parallel.ForEach(files, file => { convertCount.Add(convert(file, t));});
             RTB_Output.AppendText(string.Join(Environment.NewLine, output.SelectMany(s => s)));
             Alert($"Converted {convertCount.Count(a => a)} of {files.Length} to {t.Name}.");
@@ -178,6 +180,7 @@ namespace pk2pk
             string path = ofd.FileName;
 
             output = new ConcurrentBag<string[]>();
+            currType = CB_PKMTypes.Text;
             convert(path, t);
             RTB_Output.AppendText(string.Join(Environment.NewLine, output.SelectMany(s => s)));
         }

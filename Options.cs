@@ -33,11 +33,11 @@ namespace pk2pk
         }
         private void loadFields()
         {
-            CB_Country.SelectedValue = PKMConverter.Country;
-            CB_SubRegion.SelectedValue = PKMConverter.Region;
+            CB_Country.SelectedValue = 49;
+            CB_SubRegion.SelectedValue = 49;
             CB_3DSReg.SelectedValue = PKMConverter.ConsoleRegion;
             RB_F.Checked = PKMConverter.OT_Gender == 1;
-            TB_TR.Text = PKMConverter.OT_Name;
+            TB_TR.Text = "RoC";
         }
         private void saveFields()
         {
